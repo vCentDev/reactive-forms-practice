@@ -1,11 +1,12 @@
 <h1>Welcome to {{ title() }}</h1>
 <p>This is a simple Angular starter project built with Angular's v21.2.18 version .</p>
 <hr />
-<form [formGroup]="userForm">
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <label for="name">Name:</label>
   <input type="text" id="name" placeholder="Type your name here" formControlName="name" />
   <label for="email">Email:</label>
   <input type="text" id="email" placeholder="Type your email here" formControlName="email" />
+  <button type="submit">Submit</button>
 </form>
 <p>Name: {{userForm.value.name}}</p>
 <p>Email: {{userForm.value.email}}</p>

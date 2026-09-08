@@ -8,9 +8,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './app.css',
 })
 export class App {
+
   protected readonly title = signal('Angular v21.2.18');
   userForm = new FormGroup({
     name: new FormControl(''),
     email: new FormControl(''),
   });
+
+  onSubmit() {
+    console.log(this.userForm.value)
+    }
 }
