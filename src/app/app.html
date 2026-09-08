@@ -1,11 +1,24 @@
-<h1>Welcome to {{ title() }}</h1>
-<p>This is a simple Angular starter project built with Angular's v21.2.18 version .</p>
+<h1>{{ title() }}</h1>
+<p>Ejercicio de practica sobre los formularios reactivos built with Angular's v21.2.18 version .</p>
 <hr />
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <label for="name">Name:</label>
   <input type="text" id="name" placeholder="Type your name here" formControlName="name" />
+  @if(userForm.controls.name.invalid && (userForm.controls.name.dirty || userForm.controls.name.touched)){
+    @if(userForm.controls.name.hasError('required')){
+      <span [ngStyle]="{'color': 'red'}">El nombre es requerido</span>
+    }
+  }
   <label for="email">Email:</label>
   <input type="text" id="email" placeholder="Type your email here" formControlName="email" />
+  @if(userForm.controls.email.invalid && (userForm.controls.name.dirty || userForm.controls.name.touched)){
+    @if(userForm.controls.email.hasError('required')){
+      <span [ngStyle]="{'color': 'red'}">El email es requerido</span>
+    }
+    @if(userForm.controls.email.hasError('email')){
+      <span [ngStyle]="{'color': 'red'}">El email no es válido</span>
+    }
+  }
   <button type="submit">Submit</button>
 </form>
 <p>Name: {{userForm.value.name}}</p>

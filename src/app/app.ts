@@ -1,18 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {NgStyle} from '@angular/common'
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgStyle],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
 
-  protected readonly title = signal('Angular v21.2.18');
+  protected readonly title = signal('Formularios Reactivos');
   userForm = new FormGroup({
-    name: new FormControl(''),
-    email: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
   });
 
   onSubmit() {
