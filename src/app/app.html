@@ -25,7 +25,7 @@
       <span [ngStyle]="{ color: 'red' }">El email no es válido</span>
     }
   }
-  <button type="submit">Submit</button>
+  <button type="submit" [disabled]="userForm.invalid">Submit</button>
 </form>
 <p>Name: {{ userForm.value.name }}</p>
 <p>Email: {{ userForm.value.email }}</p>
