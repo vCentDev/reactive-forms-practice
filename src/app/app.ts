@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import {NgStyle} from '@angular/common'
+import { NgStyle } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './app.css',
 })
 export class App {
-
   protected readonly title = signal('Formularios Reactivos');
   userForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -17,6 +16,7 @@ export class App {
   });
 
   onSubmit() {
-    console.log(this.userForm.value)
-    }
+    console.log(this.userForm.value);
+    this.userForm.reset();
+  }
 }
