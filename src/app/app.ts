@@ -15,8 +15,21 @@ export class App {
     email: new FormControl('', [Validators.required, Validators.email]),
   });
 
-  onSubmit() {
+  onSubmit(): void {
     console.log(this.userForm.value);
     this.userForm.reset();
+  }
+
+  loadUser(): void {
+    this.userForm.setValue({
+      name: 'Vicente',
+      email: 'vicente@example.com',
+    });
+  }
+
+  changeEmail(): void {
+    this.userForm.patchValue({
+      email: 'nuevo@example.com',
+    });
   }
 }

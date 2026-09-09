@@ -27,5 +27,9 @@
   }
   <button type="submit" [disabled]="userForm.invalid">Submit</button>
 </form>
+
+<button type="button" (click)="loadUser()">Load full user</button>
+<button type="button" (click)="changeEmail()">Change email</button>
+
 <p>Name: {{ userForm.value.name }}</p>
 <p>Email: {{ userForm.value.email }}</p>
