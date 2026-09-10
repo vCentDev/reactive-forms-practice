@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 @Component({
   selector: 'app-root',
   imports: [ReactiveFormsModule, NgStyle],
@@ -17,9 +17,11 @@ export class App {
   });
 
   constructor() {
-    this.userForm.controls.email.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
-      console.log(value);
-    });
+    this.userForm.controls.email.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntilDestroyed())
+      .subscribe((value) => {
+        console.log(value);
+      });
   }
 
   onSubmit(): void {
