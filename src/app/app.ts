@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,12 @@ export class App {
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
   });
+
+  constructor() {
+    this.userForm.controls.email.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      console.log(value);
+    });
+  }
 
   onSubmit(): void {
     console.log(this.userForm.value);
