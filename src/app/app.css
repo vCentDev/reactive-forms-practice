@@ -15,3 +15,21 @@ input {
   display: flex;
   gap: 1rem;
 }
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border: 1px solid #c62828;
+}
+
+input.ng-invalid.ng-touched:focus,
+select.ng-invalid.ng-touched:focus {
+  outline: 2px solid #c62828;
+  outline-offset: 1px;
+}
+
+.input-error {
+  display: block;
+  color: #c62828;
+  font-size: 0.875rem;
+  margin-block: 0.25rem 0.75rem;
+}

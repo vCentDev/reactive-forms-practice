@@ -1,12 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
-import { NgStyle } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { JsonPipe } from '@angular/common';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { noSpacesValidator } from './utils/validators-functions';
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule, NgStyle],
+  imports: [ReactiveFormsModule, JsonPipe],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -23,6 +24,7 @@ export class App {
       zipCode: ['', Validators.required],
     }),
     phones: this.fb.array([this.createPhoneGroup()]),
+    username: ['', [Validators.required, noSpacesValidator]],
   });
 
   constructor() {
@@ -34,8 +36,17 @@ export class App {
   }
 
   onSubmit(): void {
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      return;
+    }
+
     console.log(this.userForm.value);
     this.userForm.reset();
+  }
+
+  protected isInvalid(control: AbstractControl): boolean {
+    return control.invalid && (control.touched || control.dirty);
   }
 
   loadUser(): void {
@@ -53,6 +64,7 @@ export class App {
           number: '653968141',
         },
       ],
+      username: 'vCentDev',
     });
   }
 
@@ -60,6 +72,10 @@ export class App {
     this.userForm.patchValue({
       email: 'nuevo@example.com',
     });
+  }
+
+  get address() {
+    return this.userForm.controls.address;
   }
 
   get phones() {
