@@ -3,6 +3,8 @@ import { NgStyle } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { validate } from '@angular/forms/signals';
+
 @Component({
   selector: 'app-root',
   imports: [ReactiveFormsModule, NgStyle],
@@ -21,7 +23,7 @@ export class App {
       city: ['', Validators.required],
       zipCode: ['', Validators.required],
     }),
-    phones: this.fb.array([]),
+    phones: this.fb.array([this.createPhoneGroup()]),
   });
 
   constructor() {
@@ -60,8 +62,15 @@ export class App {
     return this.userForm.controls.phones;
   }
 
+  createPhoneGroup() {
+    return this.fb.group({
+      type: ['mobile'],
+      number: ['', Validators.required],
+    });
+  }
+
   addPhone(): void {
-    this.userForm.controls.phones.push(this.fb.control(''));
+    this.userForm.controls.phones.push(this.createPhoneGroup());
   }
 
   removePhone(index: number): void {

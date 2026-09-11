@@ -41,9 +41,20 @@
   <fieldset formArrayName="phones">
     <legend>Phones</legend>
     @for (phone of phones.controls; track $index; let i = $index) {
-      <label for="phone-{{ i }}">Phone {{ i }}</label>
-      <input id="phone-{{ i }}" type="tel" [formControlName]="i" />
-      <button type="button" (click)="removePhone(i)">Remove</button>
+      <div class="phone-group" [formGroupName]="i">
+        <div class="phone-group__type">
+          <label for="phone-type-{{ i }}">Type</label>
+          <select name="phone-type-{{ i }}" id="phone-{{ i + 1 }}">
+            <option value="mobile">Mobile</option>
+            <option value="home">Home</option>
+          </select>
+        </div>
+        <div class="phone-group__number">
+          <label for="phone-number-{{ i }}">Phone {{ i + 1 }}</label>
+          <input type="tel" id="phone-number-{{ i }}" formControlName="number" />
+          <button type="button" (click)="removePhone(i)">Remove</button>
+        </div>
+      </div>
     }
     <br />
     <button type="button" (click)="addPhone()">Add new phone</button>

@@ -2,3 +2,16 @@ label,
 input {
   display: block;
 }
+
+.phone-group {
+  display: flex;
+  gap: 3rem;
+  align-items: start;
+  padding-block: 1rem;
+  border-block-end: 1px solid black;
+}
+.phone-group__type,
+.phone-group__number {
+  display: flex;
+  gap: 1rem;
+}
