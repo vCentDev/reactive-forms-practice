@@ -3,7 +3,7 @@ import { JsonPipe } from '@angular/common';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { noSpacesValidator } from './utils/validators-functions';
+import { noSpacesValidator, passwordsMatchValidator } from './utils/validators-functions';
 
 @Component({
   selector: 'app-root',
@@ -18,13 +18,22 @@ export class App {
   protected readonly userForm = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
+    username: ['', [Validators.required, noSpacesValidator]],
+    credentials: this.fb.group(
+      {
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      },
+      {
+        validators: [passwordsMatchValidator],
+      },
+    ),
     address: this.fb.group({
       street: ['', Validators.required],
       city: ['', Validators.required],
       zipCode: ['', Validators.required],
     }),
     phones: this.fb.array([this.createPhoneGroup()]),
-    username: ['', [Validators.required, noSpacesValidator]],
   });
 
   constructor() {
@@ -53,6 +62,11 @@ export class App {
     this.userForm.setValue({
       name: 'Vicente',
       email: 'vicente@example.com',
+      username: 'vCentDev',
+      credentials: {
+        password: 'Abc123',
+        confirmPassword: 'Abc123',
+      },
       address: {
         street: 'Vicente Baldoví',
         city: 'Valencia',
@@ -64,7 +78,6 @@ export class App {
           number: '653968141',
         },
       ],
-      username: 'vCentDev',
     });
   }
 
@@ -80,6 +93,10 @@ export class App {
 
   get phones() {
     return this.userForm.controls.phones;
+  }
+
+  get credentials() {
+    return this.userForm.controls.credentials;
   }
 
   createPhoneGroup() {

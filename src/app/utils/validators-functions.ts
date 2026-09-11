@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function noSpacesValidator(control: AbstractControl): ValidationErrors | null {
   const text = control.value;
@@ -13,3 +13,22 @@ export function noSpacesValidator(control: AbstractControl): ValidationErrors | 
 
   return null;
 }
+
+export const passwordsMatchValidator: ValidatorFn = (
+  control: AbstractControl,
+): ValidationErrors | null => {
+  const password = control.get('password')?.value;
+  const confirmpassword = control.get('confirmPassword')?.value;
+
+  if (typeof password !== 'string' || typeof confirmpassword !== 'string') {
+    return null;
+  }
+
+  if (password !== confirmpassword) {
+    return {
+      passwordMismatch: true,
+    };
+  }
+
+  return null;
+};

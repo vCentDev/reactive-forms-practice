@@ -2,38 +2,59 @@
 <p>Ejercicio de practica sobre los formularios reactivos built with Angular's v21.2.18 version .</p>
 <hr />
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-  <label for="name">Name:</label>
-  <input type="text" id="name" placeholder="Type your name here" formControlName="name" />
-  @if (isInvalid(userForm.controls.name)) {
-    @if (userForm.controls.name.hasError('required')) {
-      <span id="name-error" class="input-error">El nombre es requerido</span>
+  <fieldset>
+    <legend>User</legend>
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Type your name here" formControlName="name" />
+    @if (isInvalid(userForm.controls.name)) {
+      @if (userForm.controls.name.hasError('required')) {
+        <span class="input-error">El nombre es requerido</span>
+      }
     }
-  }
-  <label for="email">Email:</label>
-  <input type="email" id="email" placeholder="Type your email here" formControlName="email" />
-  @if (isInvalid(userForm.controls.email)) {
-    @if (userForm.controls.email.hasError('required')) {
-      <span id="email-error" class="input-error">El email es requerido</span>
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Type your email here" formControlName="email" />
+    @if (isInvalid(userForm.controls.email)) {
+      @if (userForm.controls.email.hasError('required')) {
+        <span class="input-error">El email es requerido</span>
+      }
+      @if (userForm.controls.email.hasError('email')) {
+        <span class="input-error">El email no es válido</span>
+      }
     }
-    @if (userForm.controls.email.hasError('email')) {
-      <span id="email-error" class="input-error">El email no es válido</span>
-    }
-  }
-  <label for="username">Username:</label>
-  <input
-    type="text"
-    id="username"
-    placeholder="Type your username here"
-    formControlName="username"
-  />
-  @if (isInvalid(userForm.controls.username)) {
-    @if (userForm.controls.username.hasError('required')) {
-      <span id="username-error" class="input-error">El nombre de usuario es requerido</span>
-    }
-    @if (userForm.controls.username.hasError('noSpaces')) {
-      <span id="username-error" class="input-error">El nombre de usuario no admite espacios</span>
-    }
-  }
+    <label for="username">Username:</label>
+    <input
+      type="text"
+      id="username"
+      placeholder="Type your username here"
+      formControlName="username"
+    />
+    <div formGroupName="credentials">
+      <label for="password">Password:</label>
+      <input type="password" formControlName="password" />
+      @if (isInvalid(credentials.controls.password)) {
+        @if (credentials.controls.password.hasError('required')) {
+          <span class="input-error">El password es requerido</span>
+        }
+        @if (credentials.controls.password.hasError('minlength')) {
+          <span class="input-error">El password debe tener 6 carácteres o más</span>
+        }
+      }
+      <label for="confir-password">Confir password:</label>
+      <input type="confir-password" formControlName="confirmPassword" />
+      @if (isInvalid(userForm.controls.credentials)) {
+        @if (credentials.controls.confirmPassword.hasError('required')) {
+          <span class="input-error">El password es requerido</span>
+        }
+        @if (credentials.hasError('passwordMismatch')) {
+          <span class="input-error">Los passwords no coinciden</span>
+        }
+      }
+    </div>
+
+    <br />
+    <button type="button" (click)="loadUser()">Load full user</button>
+    <button type="button" (click)="changeEmail()">Change email</button>
+  </fieldset>
 
   <fieldset formGroupName="address">
     <legend>Address</legend>
@@ -41,33 +62,23 @@
     <input id="street" type="text" formControlName="street" />
     @if (isInvalid(address.controls.street)) {
       @if (address.controls.street.hasError('required')) {
-        <span id="street-error" class="input-error">La calle es requerida</span>
+        <span class="input-error">La calle es requerida</span>
       }
     }
 
     <label for="city">City:</label>
-    <input
-      id="city"
-      type="text"
-      formControlName="city"
-      [attr.aria-invalid]="isInvalid(address.controls.city)"
-    />
+    <input id="city" type="text" formControlName="city" />
     @if (isInvalid(address.controls.city)) {
       @if (address.controls.city.hasError('required')) {
-        <span id="city-error" class="input-error">La ciudad es requerida</span>
+        <span class="input-error">La ciudad es requerida</span>
       }
     }
 
     <label for="zipCode">Zip code:</label>
-    <input
-      id="zipCode"
-      type="text"
-      formControlName="zipCode"
-      [attr.aria-invalid]="isInvalid(address.controls.zipCode)"
-    />
+    <input id="zipCode" type="text" formControlName="zipCode" />
     @if (isInvalid(address.controls.zipCode)) {
       @if (address.controls.zipCode.hasError('required')) {
-        <span id="zipCode-error" class="input-error">El código postal es requerido</span>
+        <span class="input-error">El código postal es requerido</span>
       }
     }
   </fieldset>
@@ -83,16 +94,18 @@
             <option value="home">Home</option>
           </select>
         </div>
+
         <div class="phone-group__number">
           <label for="phone-number-{{ i }}">Phone {{ i + 1 }}</label>
           <div>
             <input type="tel" id="phone-number-{{ i }}" formControlName="number" />
             @if (isInvalid(phone.controls.number)) {
               @if (phone.controls.number.hasError('required')) {
-                <span id="phone-error-{{ i }}" class="input-error">El teléfono es requerido</span>
+                <span class="input-error">El teléfono es requerido</span>
               }
             }
           </div>
+
           <button type="button" (click)="removePhone(i)">Remove</button>
         </div>
       </div>
@@ -100,11 +113,8 @@
     <br />
     <button type="button" (click)="addPhone()">Add new phone</button>
   </fieldset>
-
+  <br />
   <button type="submit">Submit</button>
 </form>
-
-<button type="button" (click)="loadUser()">Load full user</button>
-<button type="button" (click)="changeEmail()">Change email</button>
 
 <p>Username Errors: {{ userForm.controls.username.errors | json }}</p>
