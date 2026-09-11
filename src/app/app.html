@@ -25,11 +25,20 @@
       <span [ngStyle]="{ color: 'red' }">El email no es válido</span>
     }
   }
+
+  <fieldset formGroupName="address">
+    <label for="street">Street:</label>
+    <input id="street" type="text" formControlName="street" />
+
+    <label for="city">City:</label>
+    <input id="city" type="text" formControlName="city" />
+
+    <label for="zipCode">Zip code:</label>
+    <input id="zipCode" type="text" formControlName="zipCode" />
+  </fieldset>
+
   <button type="submit" [disabled]="userForm.invalid">Submit</button>
 </form>
 
 <button type="button" (click)="loadUser()">Load full user</button>
 <button type="button" (click)="changeEmail()">Change email</button>
-
-<p>Name: {{ userForm.value.name }}</p>
-<p>Email: {{ userForm.value.email }}</p>

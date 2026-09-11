@@ -16,6 +16,11 @@ export class App {
   protected readonly userForm = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
+    address: this.fb.group({
+      street: ['', Validators.required],
+      city: ['', Validators.required],
+      zipCode: ['', Validators.required],
+    }),
   });
 
   constructor() {
@@ -35,6 +40,11 @@ export class App {
     this.userForm.setValue({
       name: 'Vicente',
       email: 'vicente@example.com',
+      address: {
+        street: 'Vicente Baldoví',
+        city: 'Valencia',
+        zipCode: '46012',
+      },
     });
   }
 
