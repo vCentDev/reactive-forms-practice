@@ -44,7 +44,7 @@
       <div class="phone-group" [formGroupName]="i">
         <div class="phone-group__type">
           <label for="phone-type-{{ i }}">Type</label>
-          <select name="phone-type-{{ i }}" id="phone-{{ i + 1 }}">
+          <select name="phone-type-{{ i }}" id="phone-{{ i }}" formControlName="type">
             <option value="mobile">Mobile</option>
             <option value="home">Home</option>
           </select>

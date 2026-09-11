@@ -3,7 +3,6 @@ import { NgStyle } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { validate } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-root',
@@ -48,7 +47,12 @@ export class App {
         city: 'Valencia',
         zipCode: '46012',
       },
-      phones: [],
+      phones: [
+        {
+          type: 'home',
+          number: '653968141',
+        },
+      ],
     });
   }
 
