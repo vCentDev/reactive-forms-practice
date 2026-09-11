@@ -27,6 +27,7 @@
   }
 
   <fieldset formGroupName="address">
+    <legend>Address</legend>
     <label for="street">Street:</label>
     <input id="street" type="text" formControlName="street" />
 
@@ -35,6 +36,17 @@
 
     <label for="zipCode">Zip code:</label>
     <input id="zipCode" type="text" formControlName="zipCode" />
+  </fieldset>
+
+  <fieldset formArrayName="phones">
+    <legend>Phones</legend>
+    @for (phone of phones.controls; track $index; let i = $index) {
+      <label for="phone-{{ i }}">Phone {{ i }}</label>
+      <input id="phone-{{ i }}" type="tel" [formControlName]="i" />
+      <button type="button" (click)="removePhone(i)">Remove</button>
+    }
+    <br />
+    <button type="button" (click)="addPhone()">Add new phone</button>
   </fieldset>
 
   <button type="submit" [disabled]="userForm.invalid">Submit</button>

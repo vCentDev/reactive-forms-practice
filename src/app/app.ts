@@ -21,6 +21,7 @@ export class App {
       city: ['', Validators.required],
       zipCode: ['', Validators.required],
     }),
+    phones: this.fb.array([]),
   });
 
   constructor() {
@@ -45,6 +46,7 @@ export class App {
         city: 'Valencia',
         zipCode: '46012',
       },
+      phones: [],
     });
   }
 
@@ -52,5 +54,17 @@ export class App {
     this.userForm.patchValue({
       email: 'nuevo@example.com',
     });
+  }
+
+  get phones() {
+    return this.userForm.controls.phones;
+  }
+
+  addPhone(): void {
+    this.userForm.controls.phones.push(this.fb.control(''));
+  }
+
+  removePhone(index: number): void {
+    this.userForm.controls.phones.removeAt(index);
   }
 }
