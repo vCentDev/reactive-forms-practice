@@ -39,15 +39,20 @@
           <span class="input-error">El password debe tener 6 carácteres o más</span>
         }
       }
-      <label for="confir-password">Confir password:</label>
-      <input type="confir-password" formControlName="confirmPassword" />
-      @if (isInvalid(userForm.controls.credentials)) {
+      <label for="confirm-password">Confir password:</label>
+      <input id="confirm-password" type="password" formControlName="confirmPassword" />
+      @if (isInvalid(credentials.controls.confirmPassword)) {
         @if (credentials.controls.confirmPassword.hasError('required')) {
-          <span class="input-error">El password es requerido</span>
+          <span class="input-error">El password de confirmación es requerido</span>
         }
-        @if (credentials.hasError('passwordMismatch')) {
-          <span class="input-error">Los passwords no coinciden</span>
-        }
+      }
+
+      @if (
+        credentials.hasError('passwordMismatch') &&
+        credentials.controls.password.touched &&
+        credentials.controls.confirmPassword.touched
+      ) {
+        <span class="input-error">Los passwords no coinciden</span>
       }
     </div>
 
@@ -117,4 +122,4 @@
   <button type="submit">Submit</button>
 </form>
 
-<p>Username Errors: {{ userForm.controls.username.errors | json }}</p>
+<p>Form Invalid?: {{ userForm.invalid }}</p>
